@@ -18,7 +18,7 @@ const TokenStats: React.FC = () => {
         {
           icon: <Wallet className="w-6 h-6" />,
           label: 'Liquidity',
-          value: '$70',
+          value: '$70k',
         },
         {
           icon: <Clock className="w-6 h-6" />,
