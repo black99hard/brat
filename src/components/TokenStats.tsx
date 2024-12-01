@@ -8,22 +8,22 @@ const TokenStats: React.FC = () => {
         {
           icon: <TrendingUp className="w-6 h-6" />,
           label: 'Market Cap',
-          value: '$2.5M',
+          value: '$1.5M',
         },
         {
           icon: <Users className="w-6 h-6" />,
           label: 'Holders',
-          value: '1,234',
+          value: '2,164',
         },
         {
           icon: <Wallet className="w-6 h-6" />,
           label: 'Liquidity',
-          value: '$500K',
+          value: '$46K',
         },
         {
           icon: <Clock className="w-6 h-6" />,
-          label: 'Time Lock',
-          value: '365 Days',
+          label: 'Total locked liquidity',
+          value: '100%',
         },
       ].map((stat, index) => (
         <div
