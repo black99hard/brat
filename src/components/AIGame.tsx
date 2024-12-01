@@ -4,7 +4,7 @@ import { BrainCircuit, Send } from 'lucide-react';
 const AIGame: React.FC = () => {
   const [userInput, setUserInput] = useState('');
   const [conversation, setConversation] = useState<Array<{ text: string; isAI: boolean }>>([
-    { text: "Hello, I'm BRAT. Share your thoughts with me...", isAI: true }
+    { text: "Hello, I'm Mici. Share your thoughts with me...", isAI: true }
   ]);
   const [thinking, setThinking] = useState(false);
 

@@ -31,7 +31,7 @@ const AboutSection: React.FC = () => {
                 <HeartIcon className="w-6 h-6 text-red-400" />
                 <div>
                   <h3 className="text-xl text-gray-200">Community First</h3>
-                  <p className="text-gray-400">Creator holds less than 0.5% of supply</p>
+                  <p className="text-gray-400">Creator holds less than 0.2% of supply</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4 p-4 bg-black/20 rounded-lg hover:bg-black/30 transition-colors">
