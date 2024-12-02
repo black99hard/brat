@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { BrainCircuit, Send } from 'lucide-react';
 import Groq from "groq-sdk";
 
-const groq = new Groq({ apiKey: import.meta.env.VITE_GROQ_API_KEY,  dangerouslyAllowBrowser: true});
+const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+const groq = apiKey ? new Groq({ apiKey, dangerouslyAllowBrowser: true }) : null;
 
 const AIGame: React.FC = () => {
+  const initialMessage = { text: "Hello, I'm Mici. Share your thoughts with me...", isAI: true };
   const [userInput, setUserInput] = useState('');
   const [conversation, setConversation] = useState<Array<{ text: string; isAI: boolean }>>(
-    JSON.parse(localStorage.getItem('conversation') || '[]')
+    JSON.parse(localStorage.getItem('conversation') || '[]').length > 0 
+      ? JSON.parse(localStorage.getItem('conversation') || '[]') 
+      : [initialMessage]
   );
   const [thinking, setThinking] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,6 +22,11 @@ const AIGame: React.FC = () => {
   }, [conversation]);
 
   const getAIResponse = async (input: string) => {
+    if (!groq) {
+      setError("AI API key is missing. Please check your configuration.");
+      return "Sorry, I couldn't process your request.";
+    }
+
     try {
       const chatCompletion = await groq.chat.completions.create({
         messages: [
