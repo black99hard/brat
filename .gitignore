@@ -40,3 +40,5 @@ build/
 
 # Windows
 Thumbs.db
+*.env
+*.env.local

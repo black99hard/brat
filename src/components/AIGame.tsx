@@ -1,35 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import { BrainCircuit, Send } from 'lucide-react';
+import Groq from "groq-sdk";
+
+const groq = new Groq({ apiKey: import.meta.env.VITE_GROQ_API_KEY,  dangerouslyAllowBrowser: true});
 
 const AIGame: React.FC = () => {
   const [userInput, setUserInput] = useState('');
-  const [conversation, setConversation] = useState<Array<{ text: string; isAI: boolean }>>([
-    { text: "Hello, I'm Mici. Share your thoughts with me...", isAI: true }
-  ]);
+  const [conversation, setConversation] = useState<Array<{ text: string; isAI: boolean }>>(
+    JSON.parse(localStorage.getItem('conversation') || '[]')
+  );
   const [thinking, setThinking] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [rateLimit, setRateLimit] = useState(false);
+  
+  useEffect(() => {
+    localStorage.setItem('conversation', JSON.stringify(conversation));
+  }, [conversation]);
 
-  const aiResponses = [
-    "I understand how you feel. Life's edges can be sharp, but they shape us.",
-    "Sometimes running away leads us to where we need to be.",
-    "In every corner of the digital world, there's a chance for connection.",
-    "Your journey matters. Tell me more about what brings you here.",
-    "The matrix of life is complex, but you're not navigating it alone."
-  ];
+  const getAIResponse = async (input: string) => {
+    try {
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [
+          {
+            role: "user",
+            content: input,
+          },
+        ],
+        model: "llama3-8b-8192",
+      });
+      return chatCompletion.choices[0]?.message?.content || "";
+    } catch (err) {
+      setError("Failed to get response from AI. Please try again.");
+      console.error(err);
+      return "Sorry, I couldn't process your request.";
+    }
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userInput.trim()) return;
+
+    if (rateLimit) {
+      setError("Please wait before sending another message.");
+      return;
+    }
 
     setConversation(prev => [...prev, { text: userInput, isAI: false }]);
     setUserInput('');
     setThinking(true);
+    setRateLimit(true);
 
-    setTimeout(() => {
-      const response = aiResponses[Math.floor(Math.random() * aiResponses.length)];
-      setConversation(prev => [...prev, { text: response, isAI: true }]);
-      setThinking(false);
-    }, 1500);
+    const response = await getAIResponse(userInput);
+    setConversation(prev => [...prev, { text: response, isAI: true }]);
+    setThinking(false);
+    setRateLimit(false);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSubmit(e as any);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [userInput]);
 
   return (
     <div className="bg-black/60 rounded-xl backdrop-blur-md border border-red-500/20 p-6 w-full max-w-2xl mx-auto">
@@ -62,6 +101,7 @@ const AIGame: React.FC = () => {
             </div>
           </div>
         )}
+        {error && <div className="text-red-500">{error}</div>}
       </div>
 
       <form onSubmit={handleSubmit} className="flex gap-2">
