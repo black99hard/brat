@@ -10,7 +10,7 @@ import TokenStats from './components/TokenStats';
 import Hero from './components/Hero/Hero';
 import AboutSection from './components/About/AboutSection';
 import ContractAddress from './components/ContractAddress';
-
+import { Analytics } from "@vercel/analytics/react"
 function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-red-950 relative">
@@ -19,7 +19,7 @@ function App() {
       <ParticleBackground />
       <Terminal />
       <RetroMenu />
-      
+      <Analytics />
       <Hero />
 
       <div id="stats" className="container mx-auto px-4 py-16">
