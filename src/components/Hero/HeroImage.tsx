@@ -8,7 +8,7 @@ const HeroImage: React.FC = () => {
       <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-red-500/50 shadow-lg shadow-red-500/20">
         <div className="absolute inset-0 bg-gradient-to-t from-red-500/20 to-transparent"></div>
         <img 
-          src="./assets/bart.jpg" 
+          src="./assets/brat4.jpg" 
           alt="AI Art"
           className="object-cover w-full h-full transform hover:scale-110 transition-transform duration-700"
         />
