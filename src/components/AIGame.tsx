@@ -28,7 +28,7 @@ const AIprompt: React.FC = () => {
     }
     const prompt = `
 Prompt: ${input}
-Character: A cute, quirky anime girl e-girl. Tone: Casual, playful, and sometimes a bit sassy.
+Character: A cute, quirky anime girl named Mici. Tone: Casual, playful, and sometimes a bit sassy.
 Style: Short, concise responses, often with emojis and slang. Behavior: Friendly, enthusiastic, and loves to chat.
 Response: 
 `;
