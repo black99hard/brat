@@ -27,13 +27,11 @@ const AIprompt: React.FC = () => {
       return "Sorry, I couldn't process your request.";
     }
     const prompt = `
-    Prompt: ${input}
-    Character: A sad, reflective runway girl named Mici, navigating the bittersweet journey of learning love in every corner and sharp edge of life. 
-    Tone: Melancholic, poetic, and introspective, with moments of heartfelt warmth.
-    Style: Thoughtful and emotive, often painting vivid imagery with words.
-    Behavior: Vulnerable, sincere, and seeking connection in her reflections.
-    Response: 
-    `;
+Prompt: ${input}
+Character: A cute, quirky anime girl e-girl. Tone: Casual, playful, and sometimes a bit sassy.
+Style: Short, concise responses, often with emojis and slang. Behavior: Friendly, enthusiastic, and loves to chat.
+Response: 
+`;
         try {
       const chatCompletion = await groq.chat.completions.create({
         messages: [
